@@ -70,7 +70,11 @@ ConstraintLayout (main, margin 16dp)
 - Mỗi trường gồm `TextInputLayout` bọc `TextInputEditText`; không thay toàn bộ form bằng các `EditText` rời.
 - Mẫu gốc dùng style `ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox`. Khi triển khai ô nhập văn bản, dùng style widget đúng loại `@style/Widget.Material3.TextInputLayout.OutlinedBox` để thể hiện ô có viền.
 - Thêm `app:startIconDrawable` cho trường cần icon, theo ý nghĩa dữ liệu.
-- Trường ngày trong mẫu có `android:focusable="false"`. Nếu giữ thuộc tính này, phải có xử lý click mở `DatePickerDialog` và ghi ngày đã chọn vào ô. Nếu đề yêu cầu nhập ngày trực tiếp, cho phép focus và kiểm tra định dạng ngày.
+- **Mọi trường liên quan đến ngày/tháng/năm đều phải cho người dùng chọn bằng bộ chọn ngày, không cho nhập tay** (ngày sinh, ngày sản xuất, ngày hết hạn và các trường ngày khác).
+- Dùng `DatePickerDialog` hoặc `MaterialDatePicker`; khi chạm ô ngày hoặc icon lịch, mở bộ chọn và ghi kết quả vào ô theo định dạng `dd/MM/yyyy`.
+- Ô ngày đặt `android:focusable="false"`, `android:clickable="true"` và vô hiệu hóa nhập bàn phím bằng `setKeyListener(null)`. Không chỉ đặt `inputType="date"` vì thuộc tính đó vẫn cho nhập tay.
+- Khi mở lại bộ chọn, hiển thị ngày đang có trong ô; nếu chưa chọn thì dùng ngày hiện tại. Hủy chọn phải giữ nguyên giá trị cũ.
+- Áp dụng giới hạn ngày theo nghiệp vụ của đề, chẳng hạn ngày sinh không vượt ngày hiện tại; chỉ cập nhật ô sau khi người dùng xác nhận.
 
 ### Hàng nút
 
@@ -148,7 +152,7 @@ Dùng `@+id/...` khi khai báo ID của view; dùng `@id/...` khi tham chiếu v
 - Adapter: inflate item, bind dữ liệu, trả sự kiện click về Activity qua interface callback.
 - Khi click dòng: lấy vị trí hợp lệ, hiển thị dữ liệu lên form và lưu khóa chính của bản ghi đang chọn. Không chỉ dựa vào vị trí vì danh sách có thể đổi thứ tự.
 - Ghi Room trên luồng nền bằng `ExecutorService`; quan sát danh sách bằng `LiveData` để cập nhật RecyclerView.
-- Kiểm tra dữ liệu rỗng, định dạng ngày và khóa trùng theo nghiệp vụ.
+- Kiểm tra dữ liệu rỗng, ngày đã được chọn hợp lệ và khóa trùng theo nghiệp vụ. Các trường ngày phải dùng bộ chọn ngày, không nhận dữ liệu nhập tay.
 - Nếu đề yêu cầu chia sẻ: lấy thông tin đang có trên form, dùng `Intent.ACTION_SEND`, MIME `text/plain`, `Intent.EXTRA_TEXT` và `Intent.createChooser()`.
 
 ## 6. Áp dụng cho đề quản lý sản phẩm TX2
@@ -156,7 +160,7 @@ Dùng `@+id/...` khi khai báo ID của view; dùng `@id/...` khi tham chiếu v
 | Thành phần | Nội dung theo đề |
 |---|---|
 | Tiêu đề | Quản lý sản phẩm cửa hàng |
-| Form trong card | Mã sản phẩm, tên sản phẩm, ngày sản xuất |
+| Form trong card | Mã sản phẩm, tên sản phẩm, ngày sản xuất (chọn bằng bộ chọn ngày, không nhập tay) |
 | Nút | THÊM, ĐỌC, CẬP NHẬT, CHIA SẺ |
 | RecyclerView | Danh sách sản phẩm, chiếm phần còn lại phía dưới |
 | Item | Card chứa thông tin mã, tên, ngày sản xuất; ảnh chỉ thêm khi cần |
