@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "vn.haui.tx2_quanlysanpham"
+    namespace = "com.example.ontx22"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "vn.haui.tx2_quanlysanpham"
+        applicationId = "com.example.ontx22"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
@@ -36,13 +36,11 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.9.4")
+    implementation("androidx.room:room-runtime:2.8.4")
+    annotationProcessor("androidx.room:room-compiler:2.8.4")
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
-
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-
 }

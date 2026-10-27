@@ -1,1 +1,7 @@
-<resources><style name="Theme.TX2" parent="Theme.Material3.DayNight.NoActionBar"><item name="colorPrimary">#006B5E</item><item name="colorSecondary">#4A635D</item></style></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Ontx22" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+</resources>

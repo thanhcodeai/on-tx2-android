@@ -1,153 +1,137 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
 
-    <TextView
-        android:id="@+id/tv_title"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/mtv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Quản lý sản phẩm"
-        android:textAppearance="?attr/textAppearanceHeadlineSmall"
-        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:text="@string/title_books"
+        android:textSize="20sp" android:textStyle="bold" android:textColor="?attr/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_code"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcv_edt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        android:hint="Mã sản phẩm"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="1dp"
+        app:layout_constraintTop_toBottomOf="@id/mtv_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_code"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="6dp"
+            android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_name"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_book_code"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_book_code" app:startIconDrawable="@drawable/ic_book_code">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_book_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_book_name"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_book_name" app:startIconDrawable="@drawable/ic_book">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_book_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_publication_date"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_publication_date"
+                app:startIconDrawable="@android:drawable/ic_menu_day">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_publication_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:id="@+id/lo_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="Tên sản phẩm"
+        android:orientation="horizontal" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/mcv_edt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_code">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_name"
-            android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_add"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="textCapSentences"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_production_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="Ngày sản xuất (dd/MM/yyyy)"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_name">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_production_date"
-            android:layout_width="match_parent"
+            android:layout_weight="1" android:layout_marginHorizontal="3dp" android:textSize="12sp" app:cornerRadius="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="@string/add" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_read"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_weight="1" android:layout_marginHorizontal="3dp" android:textSize="12sp" app:cornerRadius="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="@string/read" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_delete"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:layout_marginHorizontal="3dp" android:textSize="12sp" app:cornerRadius="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="@string/delete" app:backgroundTint="?attr/colorError" android:textColor="?attr/colorOnError" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtn_share"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:layout_marginHorizontal="3dp" android:textSize="12sp" app:cornerRadius="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="@string/share" />
+    </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
-        android:text="THÊM"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_read"
-        app:layout_constraintTop_toBottomOf="@id/til_production_date" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_read"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="16dp"
-        android:text="ĐỌC"
-        app:layout_constraintStart_toEndOf="@id/btn_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_add" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_update"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="4dp"
-        android:text="CẬP NHẬT"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_share"
-        app:layout_constraintTop_toBottomOf="@id/btn_add" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_share"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="16dp"
-        android:text="CHIA SẺ"
-        app:layout_constraintStart_toEndOf="@id/btn_update"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_update" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/buttons_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="btn_update,btn_share" />
-    <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        android:text="Danh sách sản phẩm (0)"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttons_bottom" />
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Chưa có sản phẩm. Nhập thông tin và nhấn THÊM."
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_count" />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_products"
+        android:id="@+id/rcv_books"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="12dp"
         android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/lo_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_empty"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

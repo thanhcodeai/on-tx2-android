@@ -22,6 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TX2_QuanLySanPham"
+rootProject.name = "ontx22"
 include(":app")
- 

@@ -1,1 +1,25 @@
-<resources><string name="app_name">TX2 - Quản lý sản phẩm</string></resources>
+﻿<resources>
+    <string name="app_name">Quản lý sách</string>
+    <string name="title_books">QUẢN LÝ SÁCH</string>
+    <string name="hint_book_code">Mã sách</string>
+    <string name="hint_book_name">Tên sách</string>
+    <string name="hint_publication_date">Ngày xuất bản</string>
+    <string name="title_pick_publication_date">Chọn ngày xuất bản</string>
+    <string name="add">THÊM</string>
+    <string name="read">ĐỌC</string>
+    <string name="delete">XÓA</string>
+    <string name="share">CHIA SẺ</string>
+    <string name="required_book_code">Vui lòng nhập mã sách</string>
+    <string name="required_book_name">Vui lòng nhập tên sách</string>
+    <string name="required_publication_date">Vui lòng chọn ngày xuất bản</string>
+    <string name="duplicate_book_code">Mã sách đã tồn tại</string>
+    <string name="added">Đã thêm sách</string>
+    <string name="deleted">Đã xóa sách được chọn</string>
+    <string name="select_book">Vui lòng chọn sách trong danh sách trước khi xóa</string>
+    <string name="book_not_found">Sách được chọn không còn trong dữ liệu</string>
+    <string name="database_error">Không thể truy cập dữ liệu. Vui lòng thử lại.</string>
+    <string name="share_title">Chia sẻ sách</string>
+    <string name="share_content">Tên sách: %1$s\nNgày xuất bản: %2$s</string>
+    <string name="book_code_value">Mã sách: %1$s</string>
+    <string name="publication_date_value">Ngày xuất bản: %1$s</string>
+</resources>
