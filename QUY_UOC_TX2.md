@@ -71,10 +71,71 @@ ConstraintLayout (main, margin 16dp)
 - Mẫu gốc dùng style `ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox`. Khi triển khai ô nhập văn bản, dùng style widget đúng loại `@style/Widget.Material3.TextInputLayout.OutlinedBox` để thể hiện ô có viền.
 - Thêm `app:startIconDrawable` cho trường cần icon, theo ý nghĩa dữ liệu.
 - **Mọi trường liên quan đến ngày/tháng/năm đều phải cho người dùng chọn bằng bộ chọn ngày, không cho nhập tay** (ngày sinh, ngày sản xuất, ngày hết hạn và các trường ngày khác).
-- Dùng `DatePickerDialog` hoặc `MaterialDatePicker`; khi chạm ô ngày hoặc icon lịch, mở bộ chọn và ghi kết quả vào ô theo định dạng `dd/MM/yyyy`.
-- Ô ngày đặt `android:focusable="false"`, `android:clickable="true"` và vô hiệu hóa nhập bàn phím bằng `setKeyListener(null)`. Không chỉ đặt `inputType="date"` vì thuộc tính đó vẫn cho nhập tay.
-- Khi mở lại bộ chọn, hiển thị ngày đang có trong ô; nếu chưa chọn thì dùng ngày hiện tại. Hủy chọn phải giữ nguyên giá trị cũ.
-- Áp dụng giới hạn ngày theo nghiệp vụ của đề, chẳng hạn ngày sinh không vượt ngày hiện tại; chỉ cập nhật ô sau khi người dùng xác nhận.
+- **Dùng `MaterialDatePicker<Long>` theo project `BH03_V2_StudentsM`**, import `com.google.android.material.datepicker.MaterialDatePicker`; tạo bằng `MaterialDatePicker.Builder.datePicker()` trong hàm riêng `showDatePickerDialog()`. Tên hàm này không có nghĩa là dùng lớp `android.app.DatePickerDialog`.
+- Ô ngày dùng `TextInputEditText` bên trong `TextInputLayout`, có icon lịch `@android:drawable/ic_menu_day` và `android:focusable="false"` như project mẫu. Bổ sung `android:clickable="true"` và `setKeyListener(null)` để chặn nhập tay; không chỉ đặt `inputType="date"`.
+- Trong `onCreate()`, sau `mapping()`, đăng ký click cho ô ngày để gọi `showDatePickerDialog()`. Nếu icon lịch cũng cho phép nhấn, nối `setStartIconOnClickListener()` vào cùng hàm.
+- Đặt tiêu đề theo trường, ví dụ `CHỌN NGÀY SINH` hoặc `CHỌN NGÀY SẢN XUẤT`; mặc định chọn hôm nay bằng `MaterialDatePicker.todayInUtcMilliseconds()` **đúng như project mẫu**.
+- Dùng `addOnPositiveButtonClickListener()` để nhận ngày sau khi xác nhận, định dạng `dd/MM/yyyy`, gọi `tieDob.setText(...)` và `tilDob.setErrorEnabled(false)` để xóa báo lỗi. Hủy hoặc đóng lịch không thay đổi ô ngày.
+- Mở dialog bằng `datePicker.show(getSupportFragmentManager(), "DATE_PICKER")`.
+- Project mẫu định dạng bằng `SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())` và `new Date(selection)`. Khi áp dụng, đặt timezone của formatter là UTC vì `MaterialDatePicker` trả ngày theo UTC, tránh lệch ngày trên thiết bị ở múi giờ âm. Đây là bổ sung kỹ thuật cho mẫu, không phải dòng có sẵn trong project.
+- Chỉ thêm giới hạn ngày khi nghiệp vụ của đề yêu cầu; project mẫu chưa đặt giới hạn ngày.
+
+### Mẫu code chọn ngày theo BH03_V2_StudentsM
+
+XML của trường ngày (dùng cùng style ô nhập đã quy định ở trên):
+
+```xml
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/til_dob"
+    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:startIconDrawable="@android:drawable/ic_menu_day">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tie_dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ngày sinh"
+        android:focusable="false"
+        android:clickable="true" />
+</com.google.android.material.textfield.TextInputLayout>
+```
+
+Java trong `MainActivity` (khai báo và ánh xạ `tilDob`, `tieDob` trong `mapping()`):
+
+```java
+import com.google.android.material.datepicker.MaterialDatePicker;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
+// Trong onCreate(), sau mapping():
+// tieDob.setKeyListener(null);
+// tieDob.setOnClickListener(v -> showDatePickerDialog());
+// tilDob.setStartIconOnClickListener(v -> showDatePickerDialog());
+
+private void showDatePickerDialog() {
+    MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("CHỌN NGÀY SINH")
+            .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build();
+
+    datePicker.addOnPositiveButtonClickListener(selection -> {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        tieDob.setText(sdf.format(new Date(selection)));
+        tilDob.setErrorEnabled(false);
+    });
+    datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+}
+```
+
+`INPUT_MODE_CALENDAR` đặt chế độ mở ban đầu là lịch; `MaterialDatePicker` tiêu chuẩn vẫn có nút chuyển sang nhập văn bản. Không hiểu thuộc tính này là đã khóa mọi chế độ nhập tay. Khi áp dụng yêu cầu chỉ chọn ngày, cần vô hiệu hóa hoặc ẩn nút chuyển chế độ bằng cách phù hợp với phiên bản Material đang dùng, đồng thời kiểm tra người dùng không thể chuyển sang nhập văn bản. Project mẫu chưa xử lý phần khóa chuyển chế độ này.
+
+Với bài sản phẩm, đổi `tilDob`/`tieDob` thành biến tương ứng ngày sản xuất và đổi tiêu đề dialog; giữ nguyên luồng mở lịch → xác nhận → định dạng → hiển thị → xóa lỗi.
 
 ### Hàng nút
 
